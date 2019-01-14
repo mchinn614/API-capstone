@@ -1,0 +1,103 @@
+body{
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color:white;
+    font-weight:bold;
+    padding-top:5%;
+    background-image: linear-gradient( rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)),url(freestocks-org-126848-unsplash.jpg); 
+    background:cover fixed no-repeat;
+    text-align:center;
+  
+}
+
+ .search-form, .search{
+    font-size: 14px;
+    width: 100%;
+    
+}
+
+.search{
+    float:left;
+    position:relative;
+    border:0px;
+}
+
+
+input:-webkit-autofill{
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+
+.submit{
+    position:absolute;
+}
+
+h5{
+    color: rgb(182, 5, 5);
+    font-size:16px;
+}
+
+a { 
+    text-decoration : none; 
+    color:white; 
+}
+
+ul,button{
+    border:black 0px solid;
+    height:120px;
+    margin-top:0px;
+    margin-bottom:10px;
+    overflow:hidden;
+    text-align:left;
+    padding:10px;
+    position: relative;
+    background-color:rgba(0,0,0,0.6);
+    box-shadow:2px;
+    width:100%;
+    color:white;
+    font-family: 'Roboto', sans-serif;
+    vertical-align:top;
+}
+
+.drug-list{
+    width:50%;
+    margin-left:auto;
+    margin-right:auto;
+}
+
+
+ul:hover,button:hover{
+    background:rgb(70, 69, 69);
+    cursor:pointer;
+}
+
+.hide {
+    display:none;
+}
+
+.show{
+    overflow:auto;
+    height:auto;
+}
+p{
+    font-size:12px;
+}
+
+.news-wrapper{
+    position:absolute;
+    bottom:10px;
+}
+
+li {
+    font-size:10px;
+    vertical-align:text-bottom;
+    /* display:inline-block; */
+}
+
+input{
+    height:32px;
+    display:inline-block;
+}
+
+section {
+    width:100%;
+}
