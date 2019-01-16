@@ -7,7 +7,12 @@ body{
     background-image: linear-gradient( rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)),url(freestocks-org-126848-unsplash.jpg); 
     background:cover fixed no-repeat;
     text-align:center;
+    transition:all 0.15s ease-in-out;
   
+}
+
+.center-body{
+    margin-top:20%;
 }
 
  .search-form, .search{
@@ -16,10 +21,22 @@ body{
     
 }
 
+/* 
+fix image submit button
+move search bar down
+use multipes of 8 for font size
+set padding around search bar
+outline:none
+
+
+*/
 .search{
-    float:left;
+    /* float:left;
     position:relative;
-    border:0px;
+    border:0px; */
+    padding: 32px 0px 32px 16px;
+    font-size:24px;
+    outline:none;
 }
 
 
@@ -28,7 +45,11 @@ input:-webkit-autofill{
 }
 
 .submit{
-    position:absolute;
+    position:relative;
+    float:right;
+    top:-50px;
+    left:-8px;
+    outline:none;
 }
 
 h5{

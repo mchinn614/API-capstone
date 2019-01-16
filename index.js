@@ -5,6 +5,9 @@ App will accept input from search bar and return results for news related to
 pharmaceutical company and list other drugs that company manufactures
 
 OpenFDA and NEWS API are used 
+
+separate API request to api.js
+
 */
 
 $(handleSubmit);
@@ -12,6 +15,7 @@ $(handleSubmit);
 function handleSubmit(){
     $('.search-form').on('submit',event=>{
         event.preventDefault();
+        $('body').removeClass('center-body');
         const userInput=$('.search').val();
         getFdaData(userInput);
     });
@@ -117,6 +121,7 @@ function renderMultipleResults(resultsJson,numResults){
 //when company is chosen by user, then handle selection, use getFdaData function by ID
 function handleSelection(){
     $('#companyButton').on('click',function(){
+        //api.getFdaData
         getFdaData($(this).attr('class'),1)
     })
 
