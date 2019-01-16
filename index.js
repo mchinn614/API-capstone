@@ -1,14 +1,6 @@
 'use strict'
 
-/*
-App will accept input from search bar and return results for news related to 
-pharmaceutical company and list other drugs that company manufactures
 
-OpenFDA and NEWS API are used 
-
-separate API request to api.js
-
-*/
 
 $(handleSubmit);
 
@@ -38,14 +30,15 @@ function search(input){
       ])
       .then(results => {
         const response = results.filter(item=>item.ok).map(item=>item.json());
+        console.log(response)
         return Promise.all(response);
       })
       .then(responseJson=>{
-        // extract result number, company name, brand name, description,  
+        console.log(responseJson)
         const numResults = responseJson.map(item=>item.meta.results.total);
         for (let i=0;i<numResults.length;i++){
             if (numResults[i]===1){
-                renderData(responseJson);
+                renderData(responseJson[i]);
             }
             else if (numResults[i]>1){
                 renderMultipleResults(responseJson[i],numResults[i])
@@ -55,59 +48,6 @@ function search(input){
       })
       .catch(error=>displayUnknownError(error))
 }
-
-// function getFdaData(input, byId = 0) {
-//     $('section').empty();
-//     const fdaUrl = "https://api.fda.gov/drug/label.json?search=";
-//     if (byId === 1) {
-//       fetch(fdaUrl + 'id:' + input)
-//       .then(response=>response.json())
-//       .then(responseJson=>{
-//         const companyName = responseJson.results[0].openfda.manufacturer_name;
-//         getNewsData(companyName)
-//         .then(newsData=>JSON.parse(JSON.stringify(newsData)))
-//         .then(newsDataJson => {
-//             renderCompanyNews(companyName,newsDataJson)
-//         })
-//         .catch(error=>displayError(error));
-//         renderCompanyDrugList(companyName);
-//       })
-//     } else {
-//       Promise.all([
-//         fetch(fdaUrl + "openfda.manufacturer_name:" + input),
-//         fetch(fdaUrl + "openfda.brand_name:" + input),
-//         fetch(fdaUrl + "openfda.generic_name:" + input)
-//       ])
-//       .then(results => {
-//         const response = results.filter(item=>item.ok).map(item=>item.json());
-//         return Promise.all(response);
-//       })
-//       .then(responseJson=>{
-//         // extract result number, company name, brand name, description,  
-//         const numResults = responseJson.map(item=>item.meta.results.total);
-//         for (let i=0;i<numResults.length;i++){
-//             if (numResults[i]===1){
-//                 const companyName = responseJson[i].results[0].openfda.manufacturer_name;
-//                 getNewsData(companyName)
-//                 .then(newsData=>JSON.parse(JSON.stringify(newsData)))
-//                 .then(newsDataJson => renderCompanyNews(companyName,newsDataJson))
-//                 .catch(error=>displayError(error));
-//                 renderCompanyDrugList(companyName);
-//                 break
-
-//             }
-//             else if (numResults[i]>1){
-//                 renderMultipleResults(responseJson[i],numResults[i])
-//                 break
-//             }
-//         }
-//       })
-//       .catch(error=>displayError(error))
-//     }
-// }
-
-
-
 
 
 //if more than one result of getFdaData is found, then show results (pagination??)
@@ -135,23 +75,24 @@ function renderMultipleResults(resultsJson,numResults){
 
 };
 
+
 //when company is chosen by user, then handle selection, use getFdaData function by ID
 function handleSelection(){
     $('#companyButton').on('click',function(){
-        //api.getFdaData(input, id, api.getNewsData)
         api.getFdaData('id',$(this).attr('class'),displayApiError)
         .then(response=>response.json())
         .then(responseJson=>renderData(responseJson))
-        .catch(error=>displayError(error));
+        .catch(error=>displayUnknownError(error));
 
         })
 
 };
 
+
 function renderData(json){
-    const companyName = json[i].results[0].openfda.manufacturer_name;
+    const companyName = json.results[0].openfda.manufacturer_name;
     api.getNewsData(companyName,displayApiError)
-    .then(newsData=>JSON.parse(JSON.stringify(newsData)))
+    .then(newsData=>newsData.json())
     .then(newsDataJson => renderCompanyNews(companyName,newsDataJson))
     .catch(error=>displayUnknownError(error));
 
