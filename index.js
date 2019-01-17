@@ -129,7 +129,7 @@ function renderCompanyDrugList(companyName){
                     ${responseJson.results[i].openfda.brand_name} (
                     ${responseJson.results[i].openfda.generic_name})
                     </h4>
-                    <p class='hide'>${responseJson.results[i].description}</p>
+                    <p class='hide'>${responseJson.results[i].indications_and_usage}</p>
                 </button>`
             )
         }
