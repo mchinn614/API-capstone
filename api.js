@@ -17,7 +17,7 @@ const api = (function () {
 
     }
 
-    function getNewsData(companyName,failureCallback,pageSize=20,page=1){
+    function getNewsData(companyName,failureCallback,pageSize=10,page=1){
 
         const q = companyName + ' AND drug';
         const url = `https://newsapi.org/v2/everything?language=en&apiKey=8454a788c9ee43aaa925a9c288118ed7&q=
