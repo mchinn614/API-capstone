@@ -46,7 +46,7 @@ function search(input){
             }
         }
       })
-      .catch(error=>displayUnknownError(error))
+    //   .catch(error=>displayUnknownError(error))
 }
 
 
@@ -71,7 +71,7 @@ function renderMultipleResults(resultsJson,numResults){
     
         $(handleSelection);
     })
-    .catch(error=>displayError(error))
+    // .catch(error=>displayUnknownError(error))
 
 };
 
@@ -91,16 +91,35 @@ function handleSelection(){
 
 function renderData(json){
     const companyName = json.results[0].openfda.manufacturer_name;
-    api.getNewsData(companyName,displayApiError)
-    .then(newsData=>newsData.json())
-    .then(newsDataJson => renderCompanyNews(companyName,newsDataJson))
-    .catch(error=>displayUnknownError(error));
+    $('.news').append(`<h3>News About ${companyName}</h3>`);
+    api.paginateNews(companyName,'.news','.page',loading,renderNewsPages);
 
     renderCompanyDrugList(companyName);
 }
 
+function loading(){
+    $('.news').html('Loading data...')
+};
+
+function renderNewsPages(articles){
+
+    return (articles.map(item=>
+        `<div><a href=${item.url} target='_blank'>
+                <ul>${item.title}
+                    <div class ='news-wrapper'>
+                        <li class='news-source'>${item.source.name}</li>
+                        <li class-'news-date'>${Date(item.publishedAt)}</li> 
+                    </div>   
+                </ul>
+            </a></div>`
+        ).join('')
+
+    )
+
+};
+
 function renderCompanyNews(companyName,newsJson){
-    $('.news').append(`<h3>News About ${companyName}</h3>`);
+    
     const articles = newsJson.articles;
     for (let i=0;i<articles.length;i++){
         $('.news').append(
