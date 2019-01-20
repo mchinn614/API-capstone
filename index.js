@@ -1,34 +1,8 @@
 'use strict'
 
-/*
-App will accept input from search bar and return results for news related to 
-pharmaceutical company and list other drugs that company manufactures
-
-OpenFDA and NEWS API are used 
-
-separate API request to api.js
-
-*/
-
-$(handleSubmit);
-
-function handleSubmit(){
-    $('.search-form').on('submit',event=>{
-        event.preventDefault();
-        $('body').removeClass('center-body');
-        const userInput=$('.search').val();
-        search(userInput);
-    });
-};
-
-//Request all data from FDA API and then determine if manufacturer name matches userInput
-//if manufacturer name matches userInput, then getNewsData
-// or there is 1 result for brand name or generic name endpoints, then get manufacturer name and getNewsData
-//if generic userInput contained within generic or brand name, then determine number of results
-//if zero, then display message stating that no results were found
-//if more than one result is found, then renderMultipleReults (company name, drug name)
-//byId will use search=id: endpoint if user chooses drug from list
-
+//Searches user input against 3 OpenFDA endpoints. If more than one successful request then
+//prioritize in order: manufacturer_name, brand_name, generic_name
+//Next determine  is more than one companythat matches search criteria and render results accordingly
 function search(input){
     $('section').empty();
     Promise.all([
@@ -41,11 +15,11 @@ function search(input){
         return Promise.all(response);
       })
       .then(responseJson=>{
-        // extract result number, company name, brand name, description,  
+        console.log(responseJson)
         const numResults = responseJson.map(item=>item.meta.results.total);
         for (let i=0;i<numResults.length;i++){
             if (numResults[i]===1){
-                renderData(responseJson);
+                renderData(responseJson[i]);
             }
             else if (numResults[i]>1){
                 renderMultipleResults(responseJson[i],numResults[i])
@@ -56,61 +30,8 @@ function search(input){
       .catch(error=>displayUnknownError(error))
 }
 
-// function getFdaData(input, byId = 0) {
-//     $('section').empty();
-//     const fdaUrl = "https://api.fda.gov/drug/label.json?search=";
-//     if (byId === 1) {
-//       fetch(fdaUrl + 'id:' + input)
-//       .then(response=>response.json())
-//       .then(responseJson=>{
-//         const companyName = responseJson.results[0].openfda.manufacturer_name;
-//         getNewsData(companyName)
-//         .then(newsData=>JSON.parse(JSON.stringify(newsData)))
-//         .then(newsDataJson => {
-//             renderCompanyNews(companyName,newsDataJson)
-//         })
-//         .catch(error=>displayError(error));
-//         renderCompanyDrugList(companyName);
-//       })
-//     } else {
-//       Promise.all([
-//         fetch(fdaUrl + "openfda.manufacturer_name:" + input),
-//         fetch(fdaUrl + "openfda.brand_name:" + input),
-//         fetch(fdaUrl + "openfda.generic_name:" + input)
-//       ])
-//       .then(results => {
-//         const response = results.filter(item=>item.ok).map(item=>item.json());
-//         return Promise.all(response);
-//       })
-//       .then(responseJson=>{
-//         // extract result number, company name, brand name, description,  
-//         const numResults = responseJson.map(item=>item.meta.results.total);
-//         for (let i=0;i<numResults.length;i++){
-//             if (numResults[i]===1){
-//                 const companyName = responseJson[i].results[0].openfda.manufacturer_name;
-//                 getNewsData(companyName)
-//                 .then(newsData=>JSON.parse(JSON.stringify(newsData)))
-//                 .then(newsDataJson => renderCompanyNews(companyName,newsDataJson))
-//                 .catch(error=>displayError(error));
-//                 renderCompanyDrugList(companyName);
-//                 break
 
-//             }
-//             else if (numResults[i]>1){
-//                 renderMultipleResults(responseJson[i],numResults[i])
-//                 break
-//             }
-//         }
-//       })
-//       .catch(error=>displayError(error))
-//     }
-// }
-
-
-
-
-
-//if more than one result of getFdaData is found, then show results (pagination??)
+//if more than one result of search function is found, then render button for each unique company
 function renderMultipleResults(resultsJson,numResults){
     const limit = (numResults<99) ? numResults:99;
     api.getFdaData('openfda.manufacturer_name',resultsJson.results[0].openfda.manufacturer_name,limit)
@@ -135,29 +56,31 @@ function renderMultipleResults(resultsJson,numResults){
 
 };
 
-//when company is chosen by user, then handle selection, use getFdaData function by ID
+
+//when company is chosen by user, then handle selection, use search function by ID
 function handleSelection(){
     $('#companyButton').on('click',function(){
-        //api.getFdaData(input, id, api.getNewsData)
         api.getFdaData('id',$(this).attr('class'),displayApiError)
         .then(response=>response.json())
         .then(responseJson=>renderData(responseJson))
-        .catch(error=>displayError(error));
+        .catch(error=>displayUnknownError(error));
 
         })
 
 };
 
+//renders news and and drug data view
 function renderData(json){
-    const companyName = json[i].results[0].openfda.manufacturer_name;
+    const companyName = json.results[0].openfda.manufacturer_name;
     api.getNewsData(companyName,displayApiError)
-    .then(newsData=>JSON.parse(JSON.stringify(newsData)))
+    .then(newsData=>newsData.json())
     .then(newsDataJson => renderCompanyNews(companyName,newsDataJson))
     .catch(error=>displayUnknownError(error));
 
     renderCompanyDrugList(companyName);
 }
 
+//renders company news
 function renderCompanyNews(companyName,newsJson){
     $('.news').append(`<h3>News About ${companyName}</h3>`);
     const articles = newsJson.articles;
@@ -175,7 +98,7 @@ function renderCompanyNews(companyName,newsJson){
     
 };
 
-//need pagination
+//renders list of drugs made by company and allows user to view indications of each medicine
 function renderCompanyDrugList(companyName){
     api.getFdaData('openfda.manufacturer_name',companyName,displayApiError,10)
     .then(response=>response.json())
@@ -188,7 +111,7 @@ function renderCompanyDrugList(companyName){
                     ${responseJson.results[i].openfda.brand_name} (
                     ${responseJson.results[i].openfda.generic_name})
                     </h4>
-                    <p class='hide'>${responseJson.results[i].description}</p>
+                    <p class='hide'>${responseJson.results[i].indications_and_usage}</p>
                 </button>`
             )
         }
@@ -197,6 +120,7 @@ function renderCompanyDrugList(companyName){
     .catch(error=>displayError(error))
 };
 
+//allows user to show and hide indications of drugs
 function toggleDrugDescription(){
     $('.drug-name').on('click',function(){
         const display = $(this).find("p").attr('class');
@@ -212,15 +136,26 @@ function toggleDrugDescription(){
     })
 };
 
-
+//error handling
 function displayUnknownError(error){
     $('section').each(section=>$('section').empty());
     $('form').append(`<p class='error'>Unknown Error</p>`)
 }
 
-
+//error handling
 function displayApiError(error){
     $('section').each(section=>$('section').empty());
     $('form').append(`<p class='error'>${error.message}</p>`)
 };
 
+//callback function to start function
+function handleSubmit(){
+    $('.search-form').on('submit',event=>{
+        event.preventDefault();
+        $('body').removeClass('center-body');
+        const userInput=$('.search').val();
+        search(userInput);
+    });
+};
+
+$(handleSubmit);

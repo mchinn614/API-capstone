@@ -8,28 +8,24 @@ const api = (function () {
 
     function getFdaData(field, input, failureCallback, limit=1) {
 
-        console.log(fdaUrl + utils.searchString(field,input)+ `&limit=${limit}`)
-
         return (
             
-            fetch(fdaUrl + utils.searchString(field,input)+ `&limit=${limit}`)
-            .then(response=>response.json())
+            fetch(fdaUrl + searchString(field,input)+ `&limit=${limit}`)
             .catch(error=>failureCallback(error))
 
         );
 
     }
 
-    function getNewsData(companyName,pageSize=20,page=1,failureCallback){
+    function getNewsData(companyName,failureCallback,pageSize=10,page=1){
 
         const q = companyName + ' AND drug';
         const url = `https://newsapi.org/v2/everything?language=en&apiKey=8454a788c9ee43aaa925a9c288118ed7&q=
             ${q}&sortBy=popularity&pageSize=${pageSize}&page=${page}`;
-
+        
         return (
 
             fetch(url)
-            .then(response=>response.json())
             .catch(error=>failureCallback(error))
         );
     }
@@ -42,7 +38,8 @@ const api = (function () {
   };
 }());
 
-// function searchString(field,term){
-//     const strArray = term[0].toLowerCase().split(/[ ,.&]/).filter(Boolean).map(item=>field+':'+item);
-//     return strArray.join('+AND+')
-// };
+function searchString(field,term){
+    let temp = (typeof(term)==='string') ? term:term.toString();
+    const strArray = temp.toLowerCase().split(/[ ,.&]/).filter(Boolean).map(item=>field+':'+item);
+    return strArray.join('+AND+')
+};
