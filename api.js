@@ -10,7 +10,7 @@ const api = (function () {
 
         return (
             
-            fetch(fdaUrl + searchString(field,input)+ `&limit=${limit}`)
+            fetch(fdaUrl + utils.searchString(field,input)+ `&limit=${limit}`)
             .catch(error=>failureCallback(error))
 
         );
@@ -23,6 +23,7 @@ const api = (function () {
         const url = `https://newsapi.org/v2/everything?language=en&apiKey=8454a788c9ee43aaa925a9c288118ed7&q=
             ${q}&sortBy=popularity&pageSize=${pageSize}&page=${page}`;
         
+            
         return (
 
             fetch(url)
@@ -38,8 +39,8 @@ const api = (function () {
   };
 }());
 
-function searchString(field,term){
-    let temp = (typeof(term)==='string') ? term:term.toString();
-    const strArray = temp.toLowerCase().split(/[ ,.&]/).filter(Boolean).map(item=>field+':'+item);
-    return strArray.join('+AND+')
-};
+// function searchString(field,term){
+//     let temp = (typeof(term)==='string') ? term:term.toString();
+//     const strArray = temp.toLowerCase().split(/[ ,.&]/).filter(Boolean).map(item=>field+':'+item);
+//     return strArray.join('+AND+')
+// };
