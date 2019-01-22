@@ -92,18 +92,34 @@ function handleSelection(){
 function renderData(json){
     const companyName = json.results[0].openfda.manufacturer_name;
     $('.news').append(`<h3>News About ${companyName}</h3>`);
-    api.paginateNews(companyName,'.news','.page',loading,renderNewsPages);
+    api.paginateNews(companyName,'.news','.page-news',loading,renderNewsPages);
+    api.paginateFda(companyName,json.meta.results.limit,'.drugs','.page-drugs',loading,renderDrugsPages);
 
-    renderCompanyDrugList(companyName);
+    // renderCompanyDrugList(companyName);
 }
 
 function loading(){
     $('.news').html('Loading data...')
 };
 
+function renderDrugsPages(results){
+    return(
+        results.map(item=>
+            `<button type='submit' class='drug-name'>
+            <h4>
+            ${item.openfda.brand_name} (
+            ${item.openfda.generic_name})
+            </h4>
+            <p class='hide'>${item.indications_and_usage}</p>
+        </button>`
+        ).join('')        
+    )
+}
+
 function renderNewsPages(articles){
 
-    return (articles.map(item=>
+    return (
+        articles.map(item=>
         `<div><a href=${item.url} target='_blank'>
                 <ul>${item.title}
                     <div class ='news-wrapper'>
@@ -115,6 +131,8 @@ function renderNewsPages(articles){
         ).join('')
 
     )
+
+
 
 };
 
