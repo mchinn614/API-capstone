@@ -13,12 +13,10 @@ const utils = (function () {
     }
 
     function paginate(url,locator,resultNum,pageContainer,dataContainer,pageSize,alias,loadingCallback,displayCallback){
-        console.log(url)
         $(pageContainer).pagination({
             dataSource: url,
             locator: locator,
             totalNumberLocator: function(response){
-                console.log(response[`${resultNum}`])
                 return response[`${resultNum}`]
             },
             pageSize:pageSize,
@@ -27,7 +25,6 @@ const utils = (function () {
                 beforeSend: loadingCallback
             },
             callback: function(data, pagination) {
-                    console.log(data)
                     var html = displayCallback(data);
                     $(dataContainer).html(html);
             }
