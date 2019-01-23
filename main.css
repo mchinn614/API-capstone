@@ -13,6 +13,7 @@ body{
 
 h1{
     font-size:32px;
+    color:white;
 }
 
 .center-body{
@@ -25,6 +26,7 @@ h1{
     display:inline-block;
     font-style:italic;
     margin:0px;
+    color:#333;
 
 }
 
@@ -70,8 +72,8 @@ a {
     display:inline-block;
     border:black 0px solid;
     height:120px;
-    margin-top:0px;
-    margin-bottom:10px;
+    margin-top:10px;
+    margin-bottom:0px;
     overflow:hidden;
     text-align:left;
     padding:10px;
@@ -97,6 +99,12 @@ a {
     font-weight:bold;
     background-color:#9c9797;
     border-radius:10px;
+}
+
+.drugs-header,.news-header{
+    height:65px;
+    padding:0px 10px 0px 10px;
+    display:block;
 }
 
 .drug-list{
@@ -131,11 +139,6 @@ p{
     -webkit-box-orient: vertical;
 }
 
-.news-wrapper{
-    position:absolute;
-    bottom:10px;
-}
-
 
 ul{
     text-align:left;
@@ -155,6 +158,10 @@ input{
 
 section {
     width:100%;
+}
+
+.page-news{
+    padding:10px;
 }
 
 @media only screen 
