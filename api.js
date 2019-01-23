@@ -16,21 +16,6 @@ const api = (function () {
 
     }
 
-
-    function paginateFda(input,limit,dataContainer,pageContainer,loadingCallback,displayCallback){
-        const field = 'openfda.manufacturer_name'
-        const fdaUrl = "https://api.fda.gov/drug/label.json?search=";
-        const url = fdaUrl + utils.searchString(field,input);
-        const pageSize = 10;
-        const alias = {
-            pageNumber:'skip',
-            pageSize:'limit'
-        };
-
-        utils.paginate(url,'results','meta.results.total',pageContainer,dataContainer,pageSize,alias,loadingCallback,displayCallback)
-    }
-
-
     function paginateNews(companyName,dataContainer,pageContainer,loadingCallback,displayCallback){
 
         const query = companyName + ' AND drug'
@@ -50,7 +35,6 @@ const api = (function () {
   return { 
       
     getFdaData,
-    paginateFda,
     paginateNews
 
   };
