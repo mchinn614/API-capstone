@@ -1,26 +1,8 @@
 'use strict'
 
-
-
-$(handleSubmit);
-
-function handleSubmit(){
-    $('.search-form').on('submit',event=>{
-        event.preventDefault();
-        $('body').removeClass('center-body');
-        const userInput=$('.search').val();
-        search(userInput);
-    });
-};
-
-//Request all data from FDA API and then determine if manufacturer name matches userInput
-//if manufacturer name matches userInput, then getNewsData
-// or there is 1 result for brand name or generic name endpoints, then get manufacturer name and getNewsData
-//if generic userInput contained within generic or brand name, then determine number of results
-//if zero, then display message stating that no results were found
-//if more than one result is found, then renderMultipleReults (company name, drug name)
-//byId will use search=id: endpoint if user chooses drug from list
-
+//Searches user input against 3 OpenFDA endpoints. If more than one successful request then
+//prioritize in order: manufacturer_name, brand_name, generic_name
+//Next determine  is more than one companythat matches search criteria and render results accordingly
 function search(input){
     $('section').empty();
     Promise.all([
@@ -30,7 +12,10 @@ function search(input){
       ])
       .then(results => {
         const response = results.filter(item=>item.ok).map(item=>item.json());
-        console.log(response)
+        if (response.length===0){
+            console.log(response.length)
+            $('.drug-list').html(`<h3>No results found. Please search again.</h3>`)
+        }
         return Promise.all(response);
       })
       .then(responseJson=>{
@@ -50,7 +35,7 @@ function search(input){
 }
 
 
-//if more than one result of getFdaData is found, then show results (pagination??)
+//if more than one result of search function is found, then render button for each unique company
 function renderMultipleResults(resultsJson,numResults){
     const limit = (numResults<99) ? numResults:99;
     api.getFdaData('openfda.manufacturer_name',resultsJson.results[0].openfda.manufacturer_name,limit)
@@ -76,9 +61,10 @@ function renderMultipleResults(resultsJson,numResults){
 };
 
 
-//when company is chosen by user, then handle selection, use getFdaData function by ID
+//when company is chosen by user, then handle selection, use search function by ID
 function handleSelection(){
     $('#companyButton').on('click',function(){
+        $('.drug-list').empty();
         api.getFdaData('id',$(this).attr('class'),displayApiError)
         .then(response=>response.json())
         .then(responseJson=>renderData(responseJson))
@@ -88,7 +74,7 @@ function handleSelection(){
 
 };
 
-
+//renders news and and drug data view
 function renderData(json){
     const companyName = json.results[0].openfda.manufacturer_name;
     $('.news').append(`<h3>News About ${companyName}</h3>`);
@@ -136,24 +122,26 @@ function renderNewsPages(articles){
 
 };
 
+//renders company news
 function renderCompanyNews(companyName,newsJson){
     
     const articles = newsJson.articles;
     for (let i=0;i<articles.length;i++){
         $('.news').append(
-            `<a href=${articles[i].url} target='_blank'>
-                <ul>${articles[i].title}
+            `<a href=${articles[i].url} class='story' target='_blank'>
+                <span class='article-title'>${articles[i].title}</span>
                     <div class ='news-wrapper'>
-                        <li class='news-source'>${articles[i].source.name}</li>
-                        <li class-'news-date'>${Date(articles[i].publishedAt)}</li> 
+                        <ul>
+                            <li class='news-source'>${articles[i].source.name}</li>
+                            <li class-'news-date'>${Date(articles[i].publishedAt)}</li> 
+                        </ul>
                     </div>   
-                </ul>
             </a>`)
     }
     
 };
 
-//need pagination
+//renders list of drugs made by company and allows user to view indications of each medicine
 function renderCompanyDrugList(companyName){
     api.getFdaData('openfda.manufacturer_name',companyName,displayApiError,10)
     .then(response=>response.json())
@@ -163,8 +151,8 @@ function renderCompanyDrugList(companyName){
             $('.drugs').append(
                 `<button type='submit' class='drug-name'>
                     <h4>
-                    ${responseJson.results[i].openfda.brand_name} (
-                    ${responseJson.results[i].openfda.generic_name})
+                    ${responseJson.results[i].openfda.brand_name} 
+                    (${responseJson.results[i].openfda.generic_name})
                     </h4>
                     <p class='hide'>${responseJson.results[i].indications_and_usage}</p>
                 </button>`
@@ -175,6 +163,7 @@ function renderCompanyDrugList(companyName){
     .catch(error=>displayError(error))
 };
 
+//allows user to show and hide indications of drugs
 function toggleDrugDescription(){
     $('.drug-name').on('click',function(){
         const display = $(this).find("p").attr('class');
@@ -190,15 +179,45 @@ function toggleDrugDescription(){
     })
 };
 
-
+//error handling
 function displayUnknownError(error){
     $('section').each(section=>$('section').empty());
     $('form').append(`<p class='error'>Unknown Error</p>`)
 }
 
-
+//error handling
 function displayApiError(error){
     $('section').each(section=>$('section').empty());
     $('form').append(`<p class='error'>${error.message}</p>`)
 };
 
+//clear search
+function clearSearch(){
+    $('.clear-search').on('click',event=>{
+        event.preventDefault();
+        $('.news').empty();
+        $('.drugs').empty();
+        $('.drug-list').empty();
+        $('.instructions').removeClass('hide')
+        $('.search').val('').focus();
+        $('.clear-search').addClass('hide')
+    })
+}
+
+//callback function to start function
+function handleSubmit(){
+    $('.search-form').on('submit',event=>{
+        event.preventDefault();
+        $('body').removeClass('center-body');
+        $('.clear-search').removeClass('hide');
+        $('.news').empty();
+        $('.drugs').empty();
+        $('.drug-list').empty();
+        $('.instructions').addClass('hide')
+        const userInput=$('.search').val();
+        search(userInput);
+    });
+};
+
+$(handleSubmit);
+$(clearSearch);

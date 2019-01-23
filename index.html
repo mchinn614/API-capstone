@@ -2,7 +2,7 @@
 <html lang='en'>
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width">
+    <meta name="viewport" content="width=device-width,intial-scale=1">
     <title></title>
     <link href="main.css" rel="stylesheet" type="text/css">
     <link href="float-grid.css" rel="stylesheet" type="text/css">
@@ -24,17 +24,23 @@
 
   <body class='center-body'>
     <header role="header" class='row'>
-            <h1>Learn About the Company that Makes your Medicine</h1>
+            <h1>Who makes your medicine?</h1>
     </header>
       <main role="main">
           <div class='row'>
               <div class ='col-12'>
+                    <!-- <button type='button' class ='clear-search'>Clear Search</button> -->
                     <form class='search-form'>
                         <input class='search' type='text' placeholder='Search company or medicine...' name='search'>
                         <input class='submit' type='image' 
                             src='https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/mCz7hqj/videoblocks-magnifying-glass-search-icon-in-and-out-animation-loop-black_hovv31ukf_thumbnail-full04.png' 
-                            name='submit'/>
+                            name='submit'>
                     </form>
+                    <p class='instructions'>
+                        Search a pharmaceutical company or medicine to find current news about the company
+                        and the types of medicine made by the company
+                    </p>
+                    <button type='button' class ='hide clear-search'>Clear Search</button>
                 </div>
             </div>
         <div class='row'>
