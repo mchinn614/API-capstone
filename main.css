@@ -35,19 +35,7 @@ h1{
     
 }
 
-/* 
-fix image submit button
-move search bar down
-use multipes of 8 for font size
-set padding around search bar
-outline:none
-
-
-*/
 .search{
-    /* float:left;
-    position:relative;
-    border:0px; */
     display:inline-block;
     width: 100%;
     padding: 24px 0px 24px 16px;
