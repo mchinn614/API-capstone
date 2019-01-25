@@ -10,4 +10,4 @@ Based on the users' search, the app will render links to current news about the 
 
 ### Landing Page
 
-https://github.com/mchinn614/KnowPharma/blob/master/images/LandingPage.JPG
+![Alt text](../images/LandingPage.jpg?raw=true "Optional Title")
