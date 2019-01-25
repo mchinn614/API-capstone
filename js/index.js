@@ -40,7 +40,7 @@ function renderMultipleResults(resultsJson,numResults){
     api.getFdaData('openfda.manufacturer_name',resultsJson.results[0].openfda.manufacturer_name,limit)
     .then(response=>response.json())
     .then(responseJson=>{
-        $('.drug-list').append(`<h5>Multiple results found. Please select company from list.</h5>`)
+        $('.drug-list').append(`<h5>Please select company from list.</h5>`)
         let companyList =[];
         for (let i=0;i<responseJson.results.length;i++){
             let companyName = responseJson.results[i].openfda.manufacturer_name[0];
