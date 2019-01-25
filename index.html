@@ -1,62 +1,57 @@
 <!DOCTYPE html>
-<html lang='en'>
-  <head>
+<html lang="en">
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,intial-scale=1">
     <title>Know Pharma</title>
-    <script src="//code.jquery.com/jquery.min.js"></script>
-    <script type="text/javascript" src="pagination.js"></script>
-    <link href="https://pagination.js.org/css/base.css" rel="stylesheet">
-    <link href="https://pagination.js.org/css/prettify.css" rel="stylesheet">
-    <link href="https://pagination.js.org/dist/2.1.4/pagination.css" rel="stylesheet">
-    <link href="https://pagination.js.org/css/style.css" rel="stylesheet">
-    <script type="text/javascript" src="https://pagination.js.org/js/jquery-1.8.2.min.js"></script>
-    <script type="text/javascript" src="https://pagination.js.org/js/prettify.min.js"></script>
-    <script type="text/javascript" src="https://pagination.js.org/dist/2.1.4/pagination.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <link href="float-grid.css" rel="stylesheet" type="text/css">
-    <link href="main.css" rel="stylesheet" type="text/css">
-    <script src = "utils.js"></script>
-    <script src="api.js"></script>
-    <script src="index.js"></script>
-  </head>
+    <link href="css/pagination.css" rel="stylesheet" type="text/css">
+    <link href="css/float-grid.css" rel="stylesheet" type="text/css">
+    <link href="css/main.css" rel="stylesheet" type="text/css">
+</head>
 
-  <body class='center-body'>
-    <header role="header" role='banner' class='row'>
-            <h1>Get To Know Your Pharmaceutical Company</h1>
+<body class="center-body">
+    <header role="banner" class="row">
+        <h1>Get To Know Your Pharmaceutical Company</h1>
     </header>
-      <main role="main">
-          <div class='row'>
-              <div class ='col-12'>
-                    <form class='search-form' role='search'>
-                        <input class='search' type='text' placeholder='Search company or medicine...' name='search'>
-                        <input class='submit' type='image' 
-                            src='https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/mCz7hqj/videoblocks-magnifying-glass-search-icon-in-and-out-animation-loop-black_hovv31ukf_thumbnail-full04.png' 
-                            alt = 'search button' name='submit'>
-                    </form>
-                    <p class='instructions'>
-                        Search a pharmaceutical company or medicine to find current news about the company
-                        and the types of medicine made by the company
-                    </p>
-                    <button type='button' class ='hide clear-search'>Clear Search</button>
-                </div>
+    <main role="main">
+        <div class="row">
+            <div class ="col-12">
+                <form class="search-form" role="search">
+                    <input class="search" type="text" placeholder="Search company or medicine..." name="search" aria-live="assertive">
+                    <input class="submit" type="image" 
+                    src="https://d2v9y0dukr6mq2.cloudfront.net/video/thumbnail/mCz7hqj/videoblocks-magnifying-glass-search-icon-in-and-out-animation-loop-black_hovv31ukf_thumbnail-full04.png" 
+                    alt = "search button" name="submit">
+                </form>
+                <p class="instructions">
+                    Search a pharmaceutical company or medicine to find current news about the company
+                    and the types of medicine made by the company
+                </p>
+                <button type="button" class ="hide clear-search">Clear Search</button>
             </div>
-        <div class='row'>
-            <div class='col-6'>
-            <section role='region' class='news'>
-
-            </section>
-            <section role='region' class='page-news'></section>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <section role="region" class="news">
+                    
+                </section>
+                <section role="region" class="page-news"></section>
             </div>
-            <div class='col-6'>
-                <section role='region' class='drugs'>
+            <div class="col-6">
+                <section role="region" class="drugs">
                 </section>
             </div>
-            <div class ='col-12'>
-                <section role='region' class = 'drug-list'>
+            <div class ="col-12">
+                <section role="region" class = "drug-list">
                 </section>
             </div>  
-      </main>
-
-  </body>
-</html>
+        </main>
+        <script src="//code.jquery.com/jquery.min.js"></script>
+        <script src="js/pagination.js"></script>
+        <script src="js/utils.js"></script>
+        <script src="js/api.js"></script>
+        <script src="js/index.js"></script>
+        
+    </body>
+    </html>
+    

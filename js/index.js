@@ -63,7 +63,7 @@ function renderMultipleResults(resultsJson,numResults){
 function renderData(json){
     $('.clear-search').removeClass('hide');
     const companyName = json.results[0].openfda.manufacturer_name;
-    $('.news').before(`<section role='section' class='news-header'><h3>News About ${companyName}</h3></section>`);
+    $('.news').before(`<section role='region' class='news-header'><h3>News About ${companyName}</h3></section>`);
     api.paginateNews(companyName,'.news','.page-news',loading,renderNewsPages);
     renderCompanyDrugList(companyName);
 }

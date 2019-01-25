@@ -4,7 +4,7 @@ body{
     color:white;
     font-weight:bold;
     padding-top:5%;
-    background-image: linear-gradient( rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)),url(freestocks-org-126848-unsplash.jpg); 
+    background-image: linear-gradient( rgba(0, 0, 0, 0.5),rgba(0, 0, 0, 0.5)),url(../images/freestocks-org-126848-unsplash.jpg); 
     background:cover fixed no-repeat;
     text-align:center;
     transition:all 0.15s ease-in-out;
@@ -27,6 +27,7 @@ h1{
     font-style:italic;
     margin:0px;
     color:#333;
+    text-shadow: white 2px -1px 1px;
 
 }
 
