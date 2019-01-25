@@ -10,4 +10,4 @@ Based on the users' search, the app will render links to current news about the 
 
 ### Landing Page
 
-../images/LandingPage.jpeg
+../images/LandingPage.jpg
