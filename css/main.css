@@ -26,8 +26,8 @@ h1{
     display:inline-block;
     font-style:italic;
     margin:0px;
-    color:#333;
-    text-shadow: white 2px -1px 1px;
+    color:white;
+    text-shadow:black 1px 1px 3px;
 
 }
 
