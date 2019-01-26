@@ -15,7 +15,7 @@ Enter the medicine or the company name of the pharmaceutical company that you ar
 
 #### Select Company
 If prompted, select the company by clicking button.
-![SelectCompany](https://github.com/mchinn614/KnowPharma/blob/master/images/SelectCompany.JPG "SelectCompany")
+![SelectCompany]( "SelectCompany")
 
 #### Results Page
 Current news about the company and a list of medicines that the company makes will be rendered on the page
