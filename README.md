@@ -28,4 +28,4 @@ User may click on each drug to display information about the condition that the 
 ![DrugIndication](https://github.com/mchinn614/KnowPharma/blob/master/images/DrugIndication.JPG "DrugIndication")
 
 ## Technology Used
-The Know Pharma app uses jQuery, javascript, HTML, and CSS. The data are pulled from the News API and the OpenFDA API.
+The Know Pharma app uses jQuery, javascript, HTML, and CSS. The data are pulled from the News API and the OpenFDA API. Pagination was implemented using the pagination.js library for the News API.
