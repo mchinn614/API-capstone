@@ -64,7 +64,7 @@ function renderMultipleResults(resultsJson, numResults) {
               .toLowerCase()
           );
           $('.drug-list').append(
-            `<button id='companyButton' class='${id}'>${companyName}</button>`
+            `<button class='companyButton' id='${id}'>${companyName}</button>`
           );
         }
       }
@@ -135,10 +135,10 @@ function renderCompanyDrugList(companyName) {
 
 //when company is chosen by user, then handle selection, use search function by ID
 function handleSelection() {
-  $('#companyButton').on('click', function() {
+  $('.companyButton').on('click', function() {
     $('.drug-list').empty();
     api
-      .getFdaData('id', $(this).attr('class'), displayApiError)
+      .getFdaData('id', $(this).attr('id'), displayApiError)
       .then(response => response.json())
       .then(responseJson => renderData(responseJson))
       .catch(error => displayUnknownError(error));
