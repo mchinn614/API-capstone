@@ -37,8 +37,9 @@ function renderMultipleResults(resultsJson, numResults) {
   const limit = numResults < 99 ? numResults : 99;
   api
     .getFdaData(
-      'openfda.manufacturer_name',
-      resultsJson.results[0].openfda.manufacturer_name,
+      'openfda.generic_name',
+      resultsJson.results[0].openfda.generic_name,
+      displayApiError,
       limit
     )
     .then(response => response.json())
